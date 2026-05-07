@@ -10,7 +10,7 @@
 <div class="flex flex-col gap-3">
   <!-- Claras -->
   {#if lightPieces.length > 0}
-    <div class="grid grid-cols-4 gap-3 justify-items-center">
+    <div class="grid grid-cols-4 gap-3 justify-items-center items-center">
       {#each lightPieces as piece}
         <Pieza
           {piece}
@@ -25,7 +25,7 @@
 
   <!-- Oscuras -->
   {#if darkPieces.length > 0}
-    <div class="grid grid-cols-4 gap-3 justify-items-center">
+    <div class="grid grid-cols-4 gap-3 justify-items-center items-center">
       {#each darkPieces as piece}
         <Pieza
           {piece}
