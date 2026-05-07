@@ -99,7 +99,7 @@
 <div class="flex flex-row items-center justify-center h-[100dvh] gap-6 px-3 py-2 overflow-hidden">
   <Tablero {board} {winLine} canPlace={phase === 'place'} onCellClick={handleCellClick} />
 
-  <div class="grid grid-rows-[auto_1fr_auto] items-center justify-items-center h-[90dvh] ml-[6vw] w-[220px] md:w-[280px] shrink-0 py-2">
+  <div class="grid grid-rows-[auto_1fr_auto] items-center justify-items-center h-[90dvh] ml-[6vw] w-[220px] md:w-[280px] shrink-0">
     {#if gameOver}
       <!-- Fila 1: vacío -->
       <div></div>
