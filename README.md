@@ -87,3 +87,7 @@ src/
 ## 📄 Licencia
 
 MIT
+
+## 📝 Pendientes
+
+- **Online:** Sistema de salas con Firebase para jugar en tiempo real con otra persona
