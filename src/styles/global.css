@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@custom-variant portrait {
+    @media (orientation: portrait) {
+        @slot;
+    }
+}
+
+@custom-variant landscape {
+    @media (orientation: landscape) {
+        @slot;
+    }
+}
+
+:root {
+    --bg: #1a1410;
+    --board: #2d2418;
+    --cell: #3d3020;
+    --cell-hover: #4d4030;
+    --gold: #c9a84c;
+    --cream: #f5f0e8;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--cream);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+}
+
+h1,
+.title-font {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+}
