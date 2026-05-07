@@ -2,7 +2,7 @@
   let { piece, size = 'md', selected = false, disabled = false, placed = false, onclick = null } = $props();
 
   const sizes = {
-    sm: piece.tall ? 'w-12 h-12 md:w-14 md:h-14' : 'w-8 h-8 md:w-10 md:h-10',
+    sm: piece.tall ? 'w-11 h-11 md:w-12 md:h-12' : 'w-8 h-8 md:w-10 md:h-10',
     md: piece.tall ? 'w-12 h-12 md:w-14 md:h-14' : 'w-8 h-8 md:w-10 md:h-10',
     lg: piece.tall ? 'w-[70%] h-[70%] aspect-square' : 'w-[50%] h-[50%] aspect-square',
   };
