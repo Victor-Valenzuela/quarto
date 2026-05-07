@@ -1,22 +1,25 @@
 <script>
   import { createBoard, generatePieces, placePiece, checkWin, getAttrName } from '../lib/gameLogic.js';
   import { sfxSelect, sfxPlace, sfxWin, sfxDraw } from '../lib/sfx.js';
+  import { saveGameState, loadGameState, clearGameState } from '../lib/storage.js';
   import Tablero from './Tablero.svelte';
   import PiezasDisponibles from './PiezasDisponibles.svelte';
   import Pieza from './Pieza.svelte';
 
   let { players, onRestart } = $props();
 
-  let board = $state(createBoard());
-  let availablePieces = $state(generatePieces());
-  let currentPlayer = $state(1);
-  let phase = $state('select'); // 'select' = elegir pieza para rival, 'place' = colocar pieza
-  let selectedPiece = $state(null); // pieza elegida para el rival
-  let pieceToPlace = $state(null); // pieza que el jugador activo debe colocar
+  // Cargar estado guardado o crear nuevo
+  const saved = loadGameState();
+  let board = $state(saved ? saved.board : createBoard());
+  let availablePieces = $state(saved ? saved.availablePieces : generatePieces());
+  let currentPlayer = $state(saved ? saved.currentPlayer : 1);
+  let phase = $state(saved ? saved.phase : 'select');
+  let selectedPiece = $state(null);
+  let pieceToPlace = $state(saved ? saved.pieceToPlace : null);
   let winLine = $state(null);
   let gameOver = $state(false);
   let result = $state(null);
-  let isFirstTurn = $state(true);
+  let isFirstTurn = $state(saved ? saved.isFirstTurn : true);
 
   // En el primer turno, J1 solo elige pieza para J2 (no coloca nada)
   // Después: J activo coloca la pieza que le dieron, luego elige pieza para el rival
@@ -34,19 +37,18 @@
     availablePieces = availablePieces.filter(p => p.id !== selectedPiece.id);
 
     if (isFirstTurn) {
-      // Primer turno: J1 eligió pieza, ahora J2 la coloca
       pieceToPlace = selectedPiece;
       selectedPiece = null;
       currentPlayer = 2;
       phase = 'place';
       isFirstTurn = false;
     } else {
-      // Turno normal: ya colocó, ahora eligió pieza para el rival
       pieceToPlace = selectedPiece;
       selectedPiece = null;
       currentPlayer = currentPlayer === 1 ? 2 : 1;
       phase = 'place';
     }
+    saveGameState({ board, availablePieces, currentPlayer, phase, pieceToPlace, isFirstTurn, players });
   }
 
   function handleCellClick(row, col) {
@@ -62,6 +64,7 @@
     const check = checkWin(board);
     if (check) {
       gameOver = true;
+      clearGameState();
       if (check.won) {
         winLine = check.line;
         result = { type: 'win', player: currentPlayer, attr: check.attr, value: check.value };
@@ -75,9 +78,11 @@
 
     // Pasar a elegir pieza para el rival
     phase = 'select';
+    saveGameState({ board, availablePieces, currentPlayer, phase, pieceToPlace, isFirstTurn, players });
   }
 
   function replay() {
+    clearGameState();
     board = createBoard();
     availablePieces = generatePieces();
     currentPlayer = 1;

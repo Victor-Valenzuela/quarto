@@ -1,10 +1,18 @@
 <script>
+  import { loadGameState, clearGameState } from '../lib/storage.js';
   import PantallaInicio from './PantallaInicio.svelte';
   import PantallaSetup from './PantallaSetup.svelte';
   import Juego from './Juego.svelte';
 
   let screen = $state('inicio');
   let players = $state(['Jugador 1', 'Jugador 2']);
+
+  // Retomar partida si hay estado guardado
+  const saved = loadGameState();
+  if (saved) {
+    players = saved.players;
+    screen = 'juego';
+  }
 
   function goToSetup() {
     screen = 'setup';
@@ -16,6 +24,7 @@
   }
 
   function restart() {
+    clearGameState();
     screen = 'inicio';
     players = ['Jugador 1', 'Jugador 2'];
   }
