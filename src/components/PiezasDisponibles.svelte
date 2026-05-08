@@ -1,40 +1,46 @@
 <script>
+  import { generatePieces } from '../lib/gameLogic.js';
   import Pieza from './Pieza.svelte';
 
   let { pieces, selectedPiece, canSelect, onSelect } = $props();
 
-  const lightPieces = $derived(pieces.filter(p => !p.dark));
-  const darkPieces = $derived(pieces.filter(p => p.dark));
+  const allPieces = generatePieces();
+  const lightAll = allPieces.filter(p => !p.dark);
+  const darkAll = allPieces.filter(p => p.dark);
+
+  function isAvailable(piece) {
+    return pieces.some(p => p.id === piece.id);
+  }
 </script>
 
-<div class="flex flex-col gap-3">
+<div class="flex flex-col gap-3 lg:gap-x-10 lg:gap-y-10">
   <!-- Claras -->
-  {#if lightPieces.length > 0}
-    <div class="grid grid-cols-4 gap-3 justify-items-center items-center">
-      {#each lightPieces as piece}
+  <div class="grid grid-cols-4 gap-4 lg:gap-x-25 lg:gap-y-10 justify-items-center items-center">
+    {#each lightAll as piece}
+      <div class={isAvailable(piece) ? '' : 'invisible'}>
         <Pieza
           {piece}
           size="sm"
           selected={selectedPiece && selectedPiece.id === piece.id}
-          disabled={!canSelect}
-          onclick={() => canSelect && onSelect(piece)}
+          disabled={!canSelect || !isAvailable(piece)}
+          onclick={() => canSelect && isAvailable(piece) && onSelect(piece)}
         />
-      {/each}
-    </div>
-  {/if}
+      </div>
+    {/each}
+  </div>
 
   <!-- Oscuras -->
-  {#if darkPieces.length > 0}
-    <div class="grid grid-cols-4 gap-3 justify-items-center items-center">
-      {#each darkPieces as piece}
+  <div class="grid grid-cols-4 gap-4 lg:gap-x-25 lg:gap-y-10 justify-items-center items-center">
+    {#each darkAll as piece}
+      <div class={isAvailable(piece) ? '' : 'invisible'}>
         <Pieza
           {piece}
           size="sm"
           selected={selectedPiece && selectedPiece.id === piece.id}
-          disabled={!canSelect}
-          onclick={() => canSelect && onSelect(piece)}
+          disabled={!canSelect || !isAvailable(piece)}
+          onclick={() => canSelect && isAvailable(piece) && onSelect(piece)}
         />
-      {/each}
-    </div>
-  {/if}
+      </div>
+    {/each}
+  </div>
 </div>

@@ -1,5 +1,26 @@
 <script>
   let { onStart } = $props();
+
+  let isFullscreen = $state(false);
+  let isMobile = $state(false);
+
+  if (typeof document !== 'undefined') {
+    isFullscreen = !!document.fullscreenElement;
+    isMobile = navigator.maxTouchPoints > 0 && window.innerWidth < 1024;
+    document.addEventListener('fullscreenchange', () => {
+      isFullscreen = !!document.fullscreenElement;
+    });
+  }
+
+  function goFullscreen() {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().then(() => {
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('landscape').catch(() => {});
+        }
+      }).catch(() => {});
+    }
+  }
 </script>
 
 <div class="flex flex-col items-center justify-center min-h-[100dvh] gap-6 p-4">
@@ -20,4 +41,13 @@
   >
     Jugar
   </button>
+
+  {#if isMobile && !isFullscreen}
+    <button
+      onclick={goFullscreen}
+      class="px-4 py-2 bg-[var(--cell)] hover:bg-[var(--cell-hover)] text-[var(--cream)] opacity-50 text-xs uppercase tracking-wider rounded transition-all cursor-pointer border border-[var(--gold)] border-opacity-20"
+    >
+      ⛶ Pantalla completa
+    </button>
+  {/if}
 </div>

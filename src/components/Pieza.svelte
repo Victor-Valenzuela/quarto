@@ -2,8 +2,8 @@
   let { piece, size = 'md', selected = false, disabled = false, placed = false, onclick = null } = $props();
 
   const sizes = {
-    sm: piece.tall ? 'w-11 h-11 md:w-12 md:h-12' : 'w-6 h-7 md:w-8 md:h-8',
-    md: piece.tall ? 'w-12 h-12 md:w-14 md:h-14' : 'w-7 h-7 md:w-8 md:h-8',
+    sm: piece.tall ? 'w-11.5 h-11.5 lg:w-19 lg:h-19' : 'w-7.5 h-7.5 lg:w-13 lg:h-13',
+    md: piece.tall ? 'w-12 h-12 lg:w-14 lg:h-14' : 'w-7 h-7 lg:w-10 lg:h-10',
     lg: piece.tall ? 'w-[75%] h-[75%] aspect-square' : 'w-[45%] h-[45%] aspect-square',
   };
 
@@ -27,6 +27,6 @@
   disabled={disabled || placed}
 >
   {#if piece.hollow}
-    <div class="{size === 'lg' ? 'w-[45%] h-[45%]' : 'w-[45%] h-[45%]'} {getShape()} bg-[#1a1410]"></div>
+    <div class="{size === 'lg' ? 'w-[45%] h-[45%]' : 'w-[55%] h-[55%]'} {getShape()} bg-[#1a1410]"></div>
   {/if}
 </button>

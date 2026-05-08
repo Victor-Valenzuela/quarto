@@ -6,12 +6,20 @@
 
   let screen = $state('inicio');
   let players = $state(['Jugador 1', 'Jugador 2']);
+  let isPortrait = $state(false);
 
   // Retomar partida si hay estado guardado
   const saved = loadGameState();
   if (saved) {
     players = saved.players;
     screen = 'juego';
+  }
+
+  // Detectar orientación
+  if (typeof window !== 'undefined') {
+    const mq = window.matchMedia('(orientation: portrait) and (max-width: 1024px)');
+    isPortrait = mq.matches;
+    mq.addEventListener('change', (e) => { isPortrait = e.matches; });
   }
 
   function goToSetup() {
@@ -39,5 +47,9 @@
 {:else if screen === 'setup'}
   <PantallaSetup onStart={startGame} onBack={backToStart} />
 {:else if screen === 'juego'}
-  <Juego {players} onRestart={restart} />
+  {#if isPortrait}
+    <PantallaInicio onStart={goToSetup} />
+  {:else}
+    <Juego {players} onRestart={restart} />
+  {/if}
 {/if}

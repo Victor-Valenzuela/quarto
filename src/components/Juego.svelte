@@ -101,10 +101,10 @@
   }
 </script>
 
-<div class="flex flex-row items-center justify-center h-[100dvh] gap-6 px-3 py-2 overflow-hidden">
+<div class="flex flex-row items-center justify-center h-[100dvh] gap-4 px-3 py-2 overflow-hidden">
   <Tablero {board} {winLine} canPlace={phase === 'place'} onCellClick={handleCellClick} />
 
-  <div class="grid grid-rows-[auto_1fr_auto] items-center justify-items-center h-[90dvh] md:h-auto ml-[6vw] w-[220px] md:w-[280px] shrink-0 gap-4">
+  <div class="flex flex-col items-center justify-center gap-4 ml-[6vw] w-[220px] md:w-[280px] shrink-0">
     {#if gameOver}
       <!-- Fila 1: vacío -->
       <div></div>
@@ -166,7 +166,7 @@
           {#if phase === 'select' && selectedPiece}
             <button
               onclick={confirmSelection}
-              class="px-4 py-2 bg-[var(--gold)] hover:brightness-110 text-[var(--bg)] font-bold text-xs uppercase tracking-wider rounded transition-all cursor-pointer"
+              class="px-4 py-1 bg-[var(--gold)] hover:brightness-110 text-[var(--bg)] font-bold text-xs uppercase tracking-wider rounded transition-all cursor-pointer"
             >
               Confirmar
             </button>
@@ -177,7 +177,7 @@
       <!-- Fila 3: botón inicio -->
       <button
         onclick={onRestart}
-        class="px-4 py-2 bg-[var(--cell)] hover:bg-[var(--cell-hover)] text-[var(--cream)] opacity-50 text-xs uppercase tracking-wider rounded transition-all cursor-pointer border border-[var(--gold)] border-opacity-20"
+        class="px-4 py-1 bg-[var(--cell)] hover:bg-[var(--cell-hover)] text-[var(--cream)] opacity-50 text-xs uppercase tracking-wider rounded transition-all cursor-pointer border border-[var(--gold)] border-opacity-20"
       >
         🏠 Inicio
       </button>
