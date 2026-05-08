@@ -26,9 +26,6 @@ import '../styles/global.css';
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js');
       }
-      if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock('landscape').catch(() => {});
-      }
     </script>
   </body>
 </html>
