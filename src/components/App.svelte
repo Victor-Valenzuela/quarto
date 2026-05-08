@@ -7,7 +7,9 @@
   let screen = $state('inicio');
   let players = $state(['Jugador 1', 'Jugador 2']);
   let isPortrait = $state(false);
-  let hasSavedGame = $state(!!loadGameState());
+
+  // Reactivo: verifica si hay partida guardada cada vez que se accede
+  let hasSavedGame = $derived(!!loadGameState());
 
   // Detectar orientación
   if (typeof window !== 'undefined') {
@@ -29,30 +31,37 @@
   function continueGame() {
     const saved = loadGameState();
     if (saved) players = saved.players;
-    enterFullscreenAndPlay();
+    screen = 'juego';
+    // Fullscreen después de cambiar screen
+    setTimeout(() => {
+      const isMobile = navigator.maxTouchPoints > 0 && window.innerWidth < 1024;
+      if (isMobile && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().then(() => {
+          if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(() => {});
+          }
+        }).catch(() => {});
+      }
+    }, 50);
   }
 
   function startGame(config) {
     clearGameState();
     players = config.players;
-    enterFullscreenAndPlay();
-  }
-
-  function enterFullscreenAndPlay() {
-    const isMobile = navigator.maxTouchPoints > 0 && window.innerWidth < 1024;
-    if (isMobile && document.documentElement.requestFullscreen) {
-      document.documentElement.requestFullscreen().then(() => {
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('landscape').catch(() => {});
-        }
-      }).catch(() => {});
-    }
     screen = 'juego';
+    setTimeout(() => {
+      const isMobile = navigator.maxTouchPoints > 0 && window.innerWidth < 1024;
+      if (isMobile && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().then(() => {
+          if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(() => {});
+          }
+        }).catch(() => {});
+      }
+    }, 50);
   }
 
   function restart() {
-    clearGameState();
-    hasSavedGame = false;
     screen = 'inicio';
     players = ['Jugador 1', 'Jugador 2'];
     if (document.fullscreenElement) {
