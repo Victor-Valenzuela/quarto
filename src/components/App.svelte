@@ -37,11 +37,12 @@
     players = ['Jugador 1', 'Jugador 2'];
     // Salir de fullscreen
     if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
-    }
-    // Desbloquear orientación
-    if (screen.orientation && screen.orientation.unlock) {
-      screen.orientation.unlock();
+      document.exitFullscreen().then(() => {
+        // Forzar portrait después de salir de fullscreen
+        if (screen.orientation && screen.orientation.lock) {
+          screen.orientation.lock('portrait').catch(() => {});
+        }
+      }).catch(() => {});
     }
   }
 
