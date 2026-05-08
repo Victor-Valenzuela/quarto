@@ -56,7 +56,7 @@
 {:else if screen === 'setup'}
   <PantallaSetup onStart={startGame} onBack={backToStart} />
 {:else if screen === 'juego'}
-  {#if isPortrait}
+  {#if isPortrait && !document.fullscreenElement}
     <div class="flex flex-col items-center justify-center min-h-[100dvh] gap-6 p-4">
       <h1 class="text-4xl font-bold tracking-wide uppercase text-[var(--gold)] title-font">Quarto</h1>
       <p class="text-sm text-[var(--cream)] opacity-50">Partida en curso</p>

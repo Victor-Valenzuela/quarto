@@ -4,7 +4,7 @@
     "description": "Piensa dos veces — Juego de estrategia con 16 piezas únicas",
     "start_url": "/",
     "display": "standalone",
-    "orientation": "natural",
+    "orientation": "portrait",
     "background_color": "#1a1410",
     "theme_color": "#1a1410",
     "icons": [{
