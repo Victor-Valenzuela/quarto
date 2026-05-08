@@ -35,6 +35,14 @@
     clearGameState();
     screen = 'inicio';
     players = ['Jugador 1', 'Jugador 2'];
+    // Salir de fullscreen
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    }
+    // Desbloquear orientación
+    if (screen.orientation && screen.orientation.unlock) {
+      screen.orientation.unlock();
+    }
   }
 
   function backToStart() {
